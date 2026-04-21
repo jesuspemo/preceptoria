@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Preceptoría · RSL Elementary 2025-26</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    /* Colores institucionales Real de San Luis */
+    --rojo-i:  #c31c22;   /* Rojo principal RSL */
+    --rojo-d:  #6c0303;   /* Rojo oscuro RSL */
+    --rojo-l-i: rgba(195,28,34,0.07);
+    --gris-d:  #3d3b3b;   /* Gris oscuro Colegios del Real */
+    --gris-m:  #939090;   /* Gris medio */
+    --gris-c:  #cecaca;   /* Gris claro */
+    --gris-l:  rgba(61,59,59,0.07);
+    /* UI */
+    --bg:      #f7f6f6;
+    --surface: #ffffff;
+    --surface2:#f3f1f1;
+    --border:  #e5e0e0;
+    --border2: #d0cbcb;
+    --text:    #1c1a1a;
+    --muted:   #939090;
+    --alerta:  #b03228;
+    --alerta-l: rgba(176,50,40,0.08);
+    --azul:    #2a4a8c;
+    --azul-l:  rgba(42,74,140,0.08);
+    --naranja: #c05820;
+    --radius:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 14px; }
+
+  /* TOPBAR */
+  .topbar { background: white; border-bottom: 1px solid #e0e0e0; padding: 0 24px; height: 44px; display: flex; align-items: center; gap: 12px; }
+  .g-dot { width: 14px; height: 14px; background: linear-gradient(135deg,#4285f4 0%,#34a853 50%,#fbbc04 75%,#ea4335 100%); border-radius: 3px; }
+  .g-name { font-size: 0.8rem; color: #3c4043; font-weight: 500; flex: 1; }
+  .g-user { width: 24px; height: 24px; background: var(--rojo-i); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: white; font-weight: 600; }
+
+  /* SITE NAV */
+  .site-nav { background: var(--rojo-d); padding: 0 32px; display: flex; align-items: center; height: 52px; }
+  .s-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #f0c0c0; padding-right: 20px; border-right: 1px solid rgba(255,255,255,0.15); margin-right: 20px; white-space: nowrap; flex-shrink: 0; }
+  .s-nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .s-nav::-webkit-scrollbar { display: none; }
+  .s-link { color: rgba(255,255,255,0.55); padding: 5px 14px; border-radius: 5px; font-size: 0.8rem; cursor: pointer; transition: all .12s; white-space: nowrap; border: none; background: none; font-family: 'DM Sans', sans-serif; }
+  .s-link:hover { color: white; background: rgba(255,255,255,0.08); }
+  .s-link.active { color: var(--rojo-d); background: #f0c0c0; font-weight: 500; }
+  .role-sw { margin-left: auto; display: flex; gap: 0; background: rgba(0,0,0,0.25); border-radius: 20px; padding: 3px; flex-shrink: 0; }
+  .r-btn { background: transparent; border: none; color: rgba(255,255,255,0.5); padding: 4px 12px; border-radius: 18px; font-size: 0.72rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .12s; white-space: nowrap; }
+  .r-btn.active { background: #f0c0c0; color: var(--rojo-d); font-weight: 500; }
+
+  /* PAGES */
+  .page { display: none; max-width: 1180px; margin: 0 auto; padding: 28px 28px 80px; }
+  .page.active { display: block; }
+
+  /* PRECEPTOR SELECTOR */
+  .pre-selector { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+  .pre-sel-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); white-space: nowrap; }
+  .pre-sel-select { background: var(--surface2); border: 1px solid var(--border2); border-radius: 6px; padding: 7px 12px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.84rem; outline: none; cursor: pointer; flex: 1; max-width: 360px; }
+
+  /* HEADER */
+  .p-head { display: grid; grid-template-columns: 1fr auto; align-items: end; padding-bottom: 18px; margin-bottom: 22px; border-bottom: 1px solid var(--border); }
+  .p-greet { font-size: .62rem; text-transform: uppercase; letter-spacing: .16em; color: var(--muted); margin-bottom: 4px; }
+  .p-name { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; color: var(--rojo-i); line-height: 1.1; }
+  .p-sub { font-size: .78rem; color: var(--muted); margin-top: 4px; }
+  .p-meta { text-align: right; font-family: 'DM Mono', monospace; font-size: .68rem; color: var(--muted); line-height: 2; }
+  .p-meta strong { color: var(--text); }
+
+  /* KPIS */
+  .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 15px; position: relative; overflow: hidden; }
+  .kpi::before { content:''; position: absolute; top:0;left:0;right:0; height:2px; }
+  .kpi.v::before { background: var(--rojo-i); }
+  .kpi.o::before { background: var(--gris-d); }
+  .kpi.r::before { background: var(--alerta); }
+  .kpi.n::before { background: var(--muted); }
+  .kpi-lbl { font-size:.58rem; text-transform: uppercase; letter-spacing:.1em; color: var(--muted); margin-bottom: 5px; }
+  .kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; line-height: 1; font-weight: 600; }
+  .kpi.v .kpi-val { color: var(--rojo-i); }
+  .kpi.o .kpi-val { color: var(--gris-d); }
+  .kpi.r .kpi-val { color: var(--alerta); }
+  .kpi.n .kpi-val { color: var(--muted); }
+  .kpi-sub { font-size:.68rem; color: var(--muted); margin-top: 3px; }
+
+  /* LAYOUT */
+  .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 22px; }
+
+  /* SEC HD */
+  .sec-hd { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; margin-top: 24px; }
+  .sec-t { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--rojo-i); }
+  .sec-a { font-size:.72rem; color: var(--gris-d); cursor: pointer; font-weight: 500; }
+
+  /* PANEL */
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+
+  /* STUDENT ROWS */
+  .s-row { padding: 10px 16px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 22px 1fr auto auto; align-items: center; gap: 14px; transition: background .1s; }
+  .s-row:last-child { border-bottom: none; }
+  .s-row:hover { background: var(--surface2); }
+  .s-num { font-family: 'DM Mono', monospace; font-size:.68rem; color: var(--muted); }
+  .s-info { min-width: 0; }
+  .s-name { font-size: .83rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .s-grade { font-size: .66rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .s-dots { display: flex; gap: 4px; }
+  .dot { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .58rem; font-family: 'DM Mono', monospace; font-weight: 600; border: 1px solid var(--border2); background: var(--surface); color: var(--muted); flex-shrink: 0; }
+  .dot.done { background: var(--rojo-i); color: white; border-color: var(--rojo-i); }
+  .dot.pend { background: var(--alerta-l); color: var(--alerta); border-color: var(--alerta); }
+  .s-cta { font-size:.66rem; color: var(--gris-d); background: var(--gris-l); border: 1px solid rgba(154,112,16,.2); border-radius: 12px; padding: 3px 9px; white-space: nowrap; }
+  .s-cta.ok { color: var(--rojo-i); background: var(--rojo-l-i); border-color: rgba(46,90,48,.2); }
+  .s-cta.warn { color: var(--alerta); background: var(--alerta-l); border-color: rgba(176,50,40,.2); }
+  .more-row { padding: 8px 16px; background: var(--surface2); font-size:.74rem; color: var(--muted); text-align: center; border-top: 1px solid var(--border); cursor: pointer; }
+  .more-row:hover { color: var(--rojo-i); }
+
+  /* TEMAS */
+  .temas-card { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--gris-d); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+  .tc-grade { font-size:.6rem; text-transform: uppercase; letter-spacing:.14em; color: var(--gris-d); font-weight: 600; margin-bottom: 4px; }
+  .tc-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--rojo-i); margin-bottom: 12px; }
+  .tc-dims { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tc-dim-hd { font-size:.65rem; font-weight: 600; text-transform: uppercase; letter-spacing:.07em; color: var(--text); margin-bottom: 2px; }
+  .tc-dim-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size:.82rem; color: var(--gris-d); margin-bottom: 3px; }
+  .tc-qs { list-style: none; font-size:.74rem; line-height: 1.55; color: #4a4a40; }
+  .tc-qs li { padding-left: 7px; position: relative; margin-bottom: 1px; }
+  .tc-qs li::before { content:'·'; position: absolute; left:0; color: var(--gris-d); font-weight: 700; }
+
+  /* CALENDAR */
+  .cal-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .cal-item:last-child { border-bottom: none; }
+  .cal-box { min-width: 40px; text-align: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 0 4px; flex-shrink: 0; }
+  .cal-d { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--rojo-i); line-height: 1; }
+  .cal-m { font-size:.54rem; text-transform: uppercase; letter-spacing:.08em; color: var(--muted); margin-top: 1px; }
+  .cal-body { flex: 1; min-width: 0; }
+  .cal-title { font-size:.8rem; color: var(--text); line-height: 1.35; }
+  .cal-meta { font-size:.68rem; color: var(--muted); margin-top: 2px; display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+  .cal-tag { font-size:.6rem; padding: 1px 6px; border-radius: 9px; font-family: 'DM Mono', monospace; }
+  .ct-e { background: var(--gris-l); color: var(--gris-d); }
+  .ct-v { background: var(--azul-l); color: var(--azul); }
+  .ct-r { background: var(--rojo-l-i); color: var(--rojo-i); }
+
+  /* ALERT */
+  .alert { border-radius: var(--radius); padding: 12px 16px; margin-bottom: 20px; font-size:.8rem; line-height: 1.6; }
+  .alert.warn { background: var(--alerta-l); border: 1px solid rgba(176,50,40,.2); border-left: 3px solid var(--alerta); color: var(--alerta); }
+  .alert.ok   { background: var(--rojo-l-i); border: 1px solid rgba(46,90,48,.2); border-left: 3px solid var(--rojo-i); color: var(--rojo-i); }
+
+  /* COORD TABLE */
+  .c-table { width: 100%; border-collapse: collapse; }
+  .c-table thead th { background: var(--surface2); padding: 9px 14px; text-align: left; font-size:.62rem; text-transform: uppercase; letter-spacing:.09em; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .c-table thead th.c { text-align: center; }
+  .c-table tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+  .c-table tbody tr:last-child { border-bottom: none; }
+  .c-table tbody tr:hover { background: var(--surface2); }
+  .c-table td { padding: 9px 14px; font-size:.81rem; }
+  .c-table td.c { text-align: center; }
+  .pre-tag { font-family: 'DM Mono', monospace; font-size:.74rem; font-weight: 500; color: var(--rojo-i); background: var(--rojo-l-i); border: 1px solid rgba(46,90,48,.2); border-radius: 4px; padding: 2px 6px; }
+  .mb-wrap { display: flex; align-items: center; gap: 7px; }
+  .mb-track { flex: 1; height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; min-width: 60px; }
+  .mb-fill { height: 100%; border-radius: 2px; }
+  .mb-val { font-family: 'DM Mono', monospace; font-size:.68rem; min-width: 28px; text-align: right; }
+  .eb { display: inline-block; font-size:.66rem; padding: 2px 9px; border-radius: 12px; }
+  .eb-ok   { background: var(--rojo-l-i); color: var(--rojo-i); border: 1px solid rgba(46,90,48,.25); }
+  .eb-proc { background: var(--gris-l); color: var(--gris-d); border: 1px solid rgba(154,112,16,.25); }
+  .eb-crit { background: var(--alerta-l); color: var(--alerta); border: 1px solid rgba(176,50,40,.25); }
+
+  /* HITOS */
+  .hito { display: flex; gap: 8px; align-items: flex-start; font-size:.78rem; line-height: 1.5; margin-bottom: 6px; }
+  .hito-icon { width: 18px; flex-shrink: 0; text-align: center; margin-top: 1px; }
+
+  /* WEEK BARS */
+  .wc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 20px; }
+  .wc-lbl { font-size:.6rem; text-transform: uppercase; letter-spacing:.13em; color: var(--muted); margin-bottom: 12px; font-weight: 500; }
+  .wc-bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; }
+  .wc-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .wc-bar { width: 100%; max-width: 26px; background: var(--rojo-i); border-radius: 2px 2px 0 0; }
+  .wc-bar.e { background: var(--border2); opacity: .5; }
+  .wc-bl { font-size:.6rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .wc-bv { font-size:.66rem; color: var(--text); font-weight: 500; margin-bottom: 1px; }
+
+  /* FOOTER */
+  .footer { background: var(--rojo-d); padding: 18px 32px; text-align: center; font-size:.68rem; color: rgba(255,255,255,.3); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="g-dot"></div>
+  <div class="g-name">preceptoria.irsl.edu.mx</div>
+  <span style="font-size:.76rem;color:#5f6368;" id="user-email">preceptor@irsl.edu.mx</span>
+  <div class="g-user" id="user-avatar">TU</div>
+</div>
+
+<div class="site-nav">
+  <div class="s-title">Preceptoría Elementary</div>
+  <div class="s-nav">
+    <button class="s-link active" onclick="showTab('inicio',this)">Inicio</button>
+    <button class="s-link" onclick="showTab('alumnos',this)">Mis alumnos</button>
+    <button class="s-link" onclick="showTab('temas',this)">Temas entrevista</button>
+    <button class="s-link" onclick="showTab('agenda',this)">Agenda</button>
+  </div>
+  <div class="role-sw">
+    <!-- El switcher solo visible para coordinación. Con email_map configurado se oculta automáticamente. -->
+    <button class="r-btn active" onclick="showRole('pre',this)">Mi Panel</button>
+    <button class="r-btn" onclick="showRole('coord',this)">Coordinación</button>
+  </div>
+</div>
+
+<!-- ══ VISTA PRECEPTOR ══ -->
+<div id="view-pre">
+
+  <!-- TAB: INICIO -->
+  <div class="page active" id="tab-inicio">
+    <div class="pre-selector">
+      <span class="pre-sel-label">Preceptor</span>
+      <select class="pre-sel-select" id="pre-select" onchange="selectPreceptor(this.value)">
+        <option value="">— Selecciona tu nombre —</option>
+      </select>
+    </div>
+    <div id="pre-content">
+      <div style="text-align:center;padding:60px 20px;color:var(--muted);">
+        <div style="font-size:2.5rem;margin-bottom:12px;opacity:.3;">📋</div>
+        <div style="font-size:.9rem;">Selecciona tu nombre para ver tu panel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: MIS ALUMNOS -->
+  <div class="page" id="tab-alumnos">
+    <div class="pre-selector">
+      <span class="pre-sel-label">Preceptor</span>
+      <select class="pre-sel-select" id="pre-select-2" onchange="selectPreceptor(this.value)">
+        <option value="">— Selecciona tu nombre —</option>
+      </select>
+      <input type="text" id="search-alu" placeholder="Buscar alumno..." oninput="renderAlumnos()" style="background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:7px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;width:220px;">
+    </div>
+    <div id="alumnos-content">
+      <div style="text-align:center;padding:60px;color:var(--muted);font-size:.85rem;">Selecciona tu nombre arriba</div>
+    </div>
+  </div>
+
+  <!-- TAB: TEMAS -->
+  <div class="page" id="tab-temas">
+    <div style="max-width:860px;">
+      <div class="pre-selector" style="margin-bottom:24px;">
+        <span class="pre-sel-label">Filtrar por grado</span>
+        <div style="display:flex;gap:6px;">
+          <button onclick="filterTemas('all',this)" class="r-btn active" style="background:var(--rojo-i);color:white;border-radius:20px;padding:5px 16px;border:none;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Todos</button>
+          <button onclick="filterTemas('1°',this)" class="r-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;">1°</button>
+          <button onclick="filterTemas('2°',this)" class="r-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;">2°</button>
+          <button onclick="filterTemas('3°',this)" class="r-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;">3°</button>
+          <button onclick="filterTemas('4°',this)" class="r-btn" style="background:var(--surface2);color:var(--text);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:.78rem;cursor:pointer;font-family:'DM Sans',sans-serif;">4°</button>
+        </div>
+      </div>
+      <div id="temas-content"></div>
+    </div>
+  </div>
+
+  <!-- TAB: AGENDA -->
+  <div class="page" id="tab-agenda">
+    <div class="two-col">
+      <div>
+        <div class="sec-hd" style="margin-top:0;">
+          <div class="sec-t">Próximas citas · Abril – Junio 2026</div>
+        </div>
+        <div class="panel">
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">22</div><div class="cal-m">Abr</div></div>
+            <div class="cal-body">
+              <div class="cal-title">3ª Entrevista · Bruno Herrera Ruiz (AAG)</div>
+              <div class="cal-meta"><span>4:30 pm · Sala de juntas A</span><span class="cal-tag ct-e">entrevista</span></div>
+            </div>
+          </div>
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">23</div><div class="cal-m">Abr</div></div>
+            <div class="cal-body">
+              <div class="cal-title">Visitas semanales · 1° Elementary</div>
+              <div class="cal-meta"><span>10:00 am · Salón 1A-1B</span><span class="cal-tag ct-v">visita</span></div>
+            </div>
+          </div>
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">24</div><div class="cal-m">Abr</div></div>
+            <div class="cal-body">
+              <div class="cal-title">3ª Entrevista · Alonso Nava Loredo (AAG)</div>
+              <div class="cal-meta"><span>5:00 pm · Sala de juntas B</span><span class="cal-tag ct-e">entrevista</span></div>
+            </div>
+          </div>
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">28</div><div class="cal-m">Abr</div></div>
+            <div class="cal-body">
+              <div class="cal-title">Reunión mensual de Preceptores</div>
+              <div class="cal-meta"><span>4:00 pm · Aula magna</span><span class="cal-tag ct-r">reunión</span></div>
+            </div>
+          </div>
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">02</div><div class="cal-m">May</div></div>
+            <div class="cal-body">
+              <div class="cal-title">3ª Entrevista · Raúl López Durán (AAG)</div>
+              <div class="cal-meta"><span>4:30 pm · Sala de juntas A</span><span class="cal-tag ct-e">entrevista</span></div>
+            </div>
+          </div>
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">05</div><div class="cal-m">May</div></div>
+            <div class="cal-body">
+              <div class="cal-title">Fecha límite — 100% de 2ª entrevistas</div>
+              <div class="cal-meta"><span>Coordinación de Formación</span><span class="cal-tag ct-r">hito</span></div>
+            </div>
+          </div>
+          <div class="cal-item">
+            <div class="cal-box"><div class="cal-d">20</div><div class="cal-m">Jun</div></div>
+            <div class="cal-body">
+              <div class="cal-title">Cierre del ciclo escolar 2025–2026</div>
+              <div class="cal-meta"><span>Entrega de reportes finales</span><span class="cal-tag ct-r">cierre</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-hd" style="margin-top:0;">
+          <div class="sec-t">Hitos del ciclo</div>
+        </div>
+        <div class="panel" style="padding:16px 18px;">
+          <div class="hito"><span class="hito-icon" style="color:var(--rojo-i);">✓</span><span>1ª entrevista con familias<br><span style="color:var(--muted);font-size:.72rem;">Sep – Nov 2025</span></span></div>
+          <div class="hito"><span class="hito-icon" style="color:var(--rojo-i);">✓</span><span>2ª entrevista con familias<br><span style="color:var(--muted);font-size:.72rem;">Dic 2025 – Feb 2026</span></span></div>
+          <div class="hito"><span class="hito-icon" style="color:var(--gris-d);">●</span><span>3ª entrevista con familias<br><span style="color:var(--muted);font-size:.72rem;">Abr – Jun 2026 · En curso</span></span></div>
+          <div class="hito" style="color:var(--muted);"><span class="hito-icon">○</span><span>Reunión final de preceptores<br><span style="font-size:.72rem;">Jun 2026</span></span></div>
+          <div class="hito" style="color:var(--muted);"><span class="hito-icon">○</span><span>Entrega de reportes anuales<br><span style="font-size:.72rem;">20 Jun 2026</span></span></div>
+        </div>
+        <div class="sec-hd"><div class="sec-t">Virtud del mes</div></div>
+        <div class="panel" style="padding:16px 18px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rojo-i);margin-bottom:6px;">Sinceridad</div>
+          <div style="font-size:.78rem;color:var(--muted);line-height:1.7;">Abril · Este mes la virtud a trabajar con los alumnos es la sinceridad. Recuérdala en tus visitas semanales y como tema en la entrevista con familias cuando aplique.</div>
+          <div style="margin-top:10px;font-size:.7rem;color:var(--muted);border-top:1px solid var(--border);padding-top:8px;">May: Esfuerzo · Jun: Amistad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end view-pre -->
+
+<!-- ══ VISTA COORDINADOR ══ -->
+<div id="view-coord" style="display:none;">
+  <div class="page active">
+    <div class="p-head">
+      <div>
+        <div class="p-greet">Vista Coordinación · Martes 21 de abril, 2026</div>
+        <div class="p-name">Sección Elementary</div>
+        <div class="p-sub">18 preceptores · 285 alumnos · 1° a 4°</div>
+      </div>
+      <div class="p-meta"><strong>3ª Unidad en curso</strong><br>Ciclo 2025–2026<br>Cierre: 20 jun 2026</div>
+    </div>
+
+    <div class="kpis" id="coord-kpis"></div>
+
+    <div class="sec-hd" style="margin-top:4px;">
+      <div class="sec-t">Seguimiento por preceptor</div>
+      <span class="sec-a">Ordenado por avance 2ª →</span>
+    </div>
+    <div class="panel">
+      <table class="c-table" id="coord-table"></table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Colegio Real de San Luis · Sección Elementary · Preceptoría 2025–2026 · Uso interno</div>
+
+<script>
+// ══ DATA ══
+const PRECEPTORES = [
+  {codigo:'AAG',nombre:'Alejandro Arriaga de la Garza'},
+  {codigo:'APO',nombre:'Alfredo Antonio Posadas Olvera'},
+  {codigo:'ARV',nombre:'Andrés Rivera Vinaja'},
+  {codigo:'ARZ',nombre:'Juan Antonio Rodríguez Zavala'},
+  {codigo:'ASM',nombre:'Alejandro Saldaña Marques'},
+  {codigo:'AVE',nombre:'José Antonio Vázquez Esparza'},
+  {codigo:'DGA',nombre:'Dante Eric González Aguilar'},
+  {codigo:'EHH',nombre:'Eduardo Hernández Hernández'},
+  {codigo:'FCL',nombre:'Fernando Chávez Leyva'},
+  {codigo:'FMR',nombre:'Juan Fernando Martínez Rojas'},
+  {codigo:'GSM',nombre:'Gustavo Sánchez Martínez'},
+  {codigo:'JGP',nombre:'Jaime Hugo Gutiérrez Padilla'},
+  {codigo:'JPM',nombre:'Jesús Enrique Peña Mondragón'},
+  {codigo:'JRB',nombre:'Juan de Dios Rojas Banda'},
+  {codigo:'LLS',nombre:'Juan Leonardo López Stack'},
+  {codigo:'MCV',nombre:'Marún Curiel Ventura'},
+  {codigo:'MLG',nombre:'Mario López González'},
+  {codigo:'RVV',nombre:'Ruperto Villarreal Villarreal'},
+];
+
+const STUDENTS = [
+{id:'s001',n:'Daniel Reynoso Ramirez',g:'1°',pre:'FCL',u1:1,u2:1,u3:0,vis:7},
+{id:'s002',n:'Angel Torres Romero',g:'1°',pre:'FCL',u1:1,u2:0,u3:0,vis:5},
+{id:'s003',n:'Daniel Torres Meade',g:'2°',pre:'FCL',u1:1,u2:1,u3:0,vis:6},
+{id:'s004',n:'Jose Antonio Lopez Salazar',g:'1°',pre:'LLS',u1:1,u2:0,u3:0,vis:8},
+{id:'s005',n:'Santiago Reyes Arriaga',g:'1°',pre:'LLS',u1:1,u2:1,u3:0,vis:7},
+{id:'s006',n:'Ernesto Torres Garcia',g:'1°',pre:'LLS',u1:1,u2:0,u3:0,vis:6},
+{id:'s007',n:'Bruno Herrera Ruiz',g:'1°',pre:'AAG',u1:1,u2:1,u3:0,vis:8},
+{id:'s008',n:'Alonso Nava Loredo',g:'1°',pre:'AAG',u1:1,u2:1,u3:0,vis:7},
+{id:'s009',n:'Jose Maria Villaseñor Diaz Infante',g:'1°',pre:'AAG',u1:1,u2:1,u3:0,vis:6},
+{id:'s010',n:'Raul Guillermo Lopez Duran',g:'2°',pre:'AAG',u1:1,u2:1,u3:0,vis:7},
+{id:'s011',n:'Federico Mendizabal Puente',g:'2°',pre:'AAG',u1:1,u2:1,u3:0,vis:6},
+{id:'s012',n:'Bosco Rivera Mainou',g:'2°',pre:'AAG',u1:1,u2:1,u3:0,vis:5},
+{id:'s013',n:'Josemaria Siller Horner',g:'2°',pre:'AAG',u1:1,u2:1,u3:0,vis:8},
+{id:'s014',n:'Mane Vallari Abella',g:'2°',pre:'AAG',u1:1,u2:1,u3:0,vis:7},
+{id:'s015',n:'Diego Nava Loredo',g:'3°',pre:'AAG',u1:1,u2:1,u3:0,vis:9},
+{id:'s016',n:'Paulo Martínez Cid',g:'4°',pre:'AAG',u1:1,u2:1,u3:1,vis:8},
+{id:'s017',n:'Andrés Navarrete Rojas',g:'4°',pre:'AAG',u1:1,u2:1,u3:0,vis:5},
+{id:'s018',n:'Cayetano Rivera Mainou',g:'4°',pre:'AAG',u1:1,u2:1,u3:0,vis:6},
+{id:'s019',n:'Ricardo Torres Borbolla',g:'4°',pre:'AAG',u1:1,u2:1,u3:0,vis:5},
+{id:'s020',n:'Jose Maria De Luna Torres',g:'1°',pre:'FMR',u1:0,u2:0,u3:0,vis:2},
+{id:'s021',n:'Juan Daniel Guillen Payan',g:'1°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s022',n:'Santiago Lapuente Arreola',g:'1°',pre:'FMR',u1:0,u2:0,u3:0,vis:2},
+{id:'s023',n:'Andrés Abella Hernandez',g:'2°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s024',n:'José Miguel Apezteguia Cardoso',g:'2°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s025',n:'Fermin Jimenez Azcona',g:'2°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s026',n:'Juan Carlos Lapuente Arreola',g:'2°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s027',n:'Juan Pablo Aguilar García',g:'3°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s028',n:'Fernando Chávez Jiménez',g:'3°',pre:'FMR',u1:1,u2:0,u3:0,vis:3},
+{id:'s029',n:'Mariano Dent Moreno',g:'3°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s030',n:'Patricio Dent Moreno',g:'3°',pre:'FMR',u1:0,u2:0,u3:0,vis:2},
+{id:'s031',n:'Marcelo González Rangel',g:'3°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s032',n:'Matías Jiménez Azcona',g:'3°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s033',n:'Mauricio Lastras Fuentes',g:'3°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s034',n:'Guillermo Ortega Graniewicz',g:'3°',pre:'FMR',u1:1,u2:0,u3:0,vis:3},
+{id:'s035',n:'José Daniel Vega Andrade',g:'3°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s036',n:'Marcelo Abella Rodríguez',g:'4°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s037',n:'Mauricio Ayala Baez',g:'4°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s038',n:'Ricardo Chabrand González',g:'4°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s039',n:'Diego González Rangel',g:'4°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s040',n:'Marcelo Guillén Payan',g:'4°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s041',n:'José María Tello Huerta',g:'4°',pre:'FMR',u1:0,u2:0,u3:0,vis:3},
+{id:'s042',n:'Santiago Vázquez Rojo',g:'4°',pre:'FMR',u1:1,u2:0,u3:0,vis:4},
+{id:'s043',n:'Leonardo Garcini Medina',g:'1°',pre:'MLG',u1:1,u2:1,u3:1,vis:8},
+{id:'s044',n:'Santiago Garcini Medina',g:'1°',pre:'MLG',u1:1,u2:1,u3:1,vis:9},
+{id:'s045',n:'Eduardo Jasso Sanchez',g:'1°',pre:'MLG',u1:1,u2:1,u3:0,vis:7},
+{id:'s046',n:'Juan Pablo Ramirez Olivares',g:'1°',pre:'MLG',u1:0,u2:0,u3:0,vis:8},
+{id:'s047',n:'Joaquin Rangel Villaseñor',g:'1°',pre:'MLG',u1:1,u2:1,u3:0,vis:6},
+{id:'s048',n:'Mateo Ariza Zermeño',g:'2°',pre:'MLG',u1:1,u2:1,u3:0,vis:5},
+{id:'s049',n:'Jose Maria Gutiérrez Coto',g:'2°',pre:'MLG',u1:1,u2:1,u3:1,vis:5},
+{id:'s050',n:'Gabino Rodriguez Coronel',g:'2°',pre:'MLG',u1:1,u2:1,u3:1,vis:6},
+{id:'s051',n:'Juan José Terrazas Álvarez',g:'2°',pre:'MLG',u1:1,u2:1,u3:1,vis:6},
+{id:'s052',n:'Enrique Ariza Zermeño',g:'3°',pre:'MLG',u1:1,u2:1,u3:0,vis:8},
+{id:'s053',n:'Carlos Nicolas Cossio Poullet',g:'3°',pre:'MLG',u1:1,u2:1,u3:1,vis:10},
+{id:'s054',n:'Emilio Gutiérrez Coto',g:'3°',pre:'MLG',u1:1,u2:1,u3:1,vis:8},
+{id:'s055',n:'Diego Joselo Medina Reverte',g:'3°',pre:'MLG',u1:1,u2:1,u3:0,vis:5},
+{id:'s056',n:'Mateo Valle Benabib',g:'3°',pre:'MLG',u1:1,u2:1,u3:0,vis:8},
+{id:'s057',n:'Emilio Ramírez Olivares',g:'4°',pre:'MLG',u1:0,u2:0,u3:0,vis:6},
+{id:'s058',n:'Emiliano Valle Benabib',g:'4°',pre:'MLG',u1:1,u2:1,u3:0,vis:7},
+{id:'s059',n:'Leonardo Abaroa Luquin',g:'1°',pre:'JPM',u1:1,u2:0,u3:0,vis:5},
+{id:'s060',n:'Pablo Almazan Hernandez',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:7},
+{id:'s061',n:'Jose Maria Alonso Mejia',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:6},
+{id:'s062',n:'Jose Maria Chalita Garcia',g:'1°',pre:'JPM',u1:1,u2:0,u3:0,vis:9},
+{id:'s063',n:'Carlos Labastida Romo',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:7},
+{id:'s064',n:'Patricio Mendez Ortiz',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:8},
+{id:'s065',n:'Alejandro Montelongo Quezada',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:5},
+{id:'s066',n:'Jose Miguel Navarro Chavez',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:8},
+{id:'s067',n:'Juan Pablo Ramirez Castelo',g:'1°',pre:'JPM',u1:1,u2:1,u3:0,vis:8},
+{id:'s068',n:'Juan Nicolas Valadez Mejia',g:'1°',pre:'JPM',u1:1,u2:0,u3:0,vis:7},
+{id:'s069',n:'Rodrigo Alvarado Candia',g:'2°',pre:'JPM',u1:1,u2:0,u3:0,vis:6},
+{id:'s070',n:'José María Gonzalez Espinosa',g:'2°',pre:'JPM',u1:1,u2:1,u3:0,vis:11},
+{id:'s071',n:'Rafael Villalobos Diaz De Sandi',g:'2°',pre:'JPM',u1:1,u2:1,u3:0,vis:6},
+{id:'s072',n:'Gerardo Chalita García',g:'3°',pre:'JPM',u1:1,u2:0,u3:0,vis:8},
+{id:'s073',n:'Miguel Chalita García',g:'4°',pre:'JPM',u1:1,u2:0,u3:0,vis:6},
+{id:'s074',n:'Joel Antonio Labrada Herrera',g:'1°',pre:'JRB',u1:1,u2:1,u3:0,vis:7},
+{id:'s075',n:'Raul Gerardo Larraga Martinez',g:'1°',pre:'JRB',u1:1,u2:0,u3:0,vis:7},
+{id:'s076',n:'Leonardo Marroquin Chacon',g:'1°',pre:'JRB',u1:1,u2:1,u3:0,vis:7},
+{id:'s077',n:'Gael Aimar Mendoza Mendoza',g:'1°',pre:'JRB',u1:1,u2:1,u3:0,vis:7},
+{id:'s078',n:'Jose Eduardo Ramirez Myers',g:'1°',pre:'JRB',u1:1,u2:1,u3:0,vis:6},
+{id:'s079',n:'Rodrigo Romero Mendoza',g:'1°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s080',n:'Luis Manuel Sanchez Sharp',g:'1°',pre:'JRB',u1:1,u2:1,u3:0,vis:6},
+{id:'s081',n:'Borja Santaya Varona',g:'1°',pre:'JRB',u1:1,u2:1,u3:0,vis:6},
+{id:'s082',n:'Leonardo Avila Castorena',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s083',n:'Santiago Andrés Burgos Viramontes',g:'2°',pre:'JRB',u1:1,u2:1,u3:0,vis:6},
+{id:'s084',n:'Oscar Adrian Cruz Camacho',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s085',n:'Juan Guillermo Delgado Rodarte',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s086',n:'Oliver Harris Puente',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s087',n:'Ricardo Jerez Mendez',g:'2°',pre:'JRB',u1:1,u2:1,u3:0,vis:6},
+{id:'s088',n:'Oscar Juarez Moreno',g:'2°',pre:'JRB',u1:1,u2:1,u3:0,vis:5},
+{id:'s089',n:'Matias Luna Zarur',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s090',n:'Eduardo Muñiz Muñoz',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:6},
+{id:'s091',n:'Francisco Resendez Cid',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:5},
+{id:'s092',n:'Rafael Rodriguez Armendariz',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:5},
+{id:'s093',n:'Said Romo Muñiz',g:'2°',pre:'JRB',u1:1,u2:1,u3:0,vis:5},
+{id:'s094',n:'Bernardo Silverio Dourado',g:'2°',pre:'JRB',u1:1,u2:0,u3:0,vis:4},
+{id:'s095',n:'Pablo Allende Ornelas',g:'2°',pre:'ARV',u1:1,u2:1,u3:0,vis:4},
+{id:'s096',n:'Rodrigo Garcia Aguilar',g:'2°',pre:'ARV',u1:1,u2:1,u3:0,vis:4},
+{id:'s097',n:'Alejandro Fernández Galán Del Castillo',g:'3°',pre:'ARV',u1:1,u2:0,u3:0,vis:2},
+{id:'s098',n:'José Francisco Goldaracena Toranzo',g:'3°',pre:'ARV',u1:1,u2:0,u3:0,vis:5},
+{id:'s099',n:'Rafael Nava Castro',g:'3°',pre:'ARV',u1:1,u2:1,u3:0,vis:1},
+{id:'s100',n:'Matías Aguilar Rodriguez',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:3},
+{id:'s101',n:'Sebastián Allende Ornelas',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:4},
+{id:'s102',n:'Rodrigo Arredondo Castañeda',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:3},
+{id:'s103',n:'Emiliano Barrales Varona',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:8},
+{id:'s104',n:'Alejandro Cano Loredo',g:'4°',pre:'ARV',u1:1,u2:0,u3:0,vis:2},
+{id:'s105',n:'Mauricio Fernández Galán Del Castillo',g:'4°',pre:'ARV',u1:1,u2:0,u3:0,vis:2},
+{id:'s106',n:'Leonardo García Aguilar',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:4},
+{id:'s107',n:'Alonso Gutiérrez Luna',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:2},
+{id:'s108',n:'David Manzur Rentería',g:'4°',pre:'ARV',u1:1,u2:0,u3:0,vis:4},
+{id:'s109',n:'Juan Pablo Mejía Rincón',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:6},
+{id:'s110',n:'Miguel Méndez Juárez',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:3},
+{id:'s111',n:'Jorge Nava Castro',g:'4°',pre:'ARV',u1:1,u2:1,u3:0,vis:2},
+{id:'s112',n:'Miguel Ángel Piña Castillo',g:'4°',pre:'ARV',u1:1,u2:0,u3:0,vis:1},
+{id:'s113',n:'Patricio Tejeda D\'argence',g:'4°',pre:'ARV',u1:0,u2:0,u3:0,vis:3},
+{id:'s114',n:'Luis Ricardo Treviño Macías',g:'4°',pre:'ARV',u1:1,u2:0,u3:0,vis:4},
+{id:'s115',n:'José Pablo Velázquez Rodríguez',g:'4°',pre:'ARV',u1:1,u2:0,u3:0,vis:4},
+{id:'s116',n:'Marco Arturo De Avila Escobar',g:'1°',pre:'MCV',u1:1,u2:1,u3:0,vis:4},
+{id:'s117',n:'Lucas Dibildox Boelsterly',g:'1°',pre:'MCV',u1:1,u2:1,u3:0,vis:5},
+{id:'s118',n:'Mariano Estrada Gutierrez',g:'1°',pre:'MCV',u1:1,u2:0,u3:0,vis:6},
+{id:'s119',n:'Jose Nestor Garza Sanchez',g:'1°',pre:'MCV',u1:1,u2:0,u3:0,vis:5},
+{id:'s120',n:'Joaquin Gonzalez Escobedo',g:'1°',pre:'MCV',u1:1,u2:1,u3:0,vis:6},
+{id:'s121',n:'Jose Emilio Guzman Lara',g:'1°',pre:'MCV',u1:1,u2:0,u3:0,vis:4},
+{id:'s122',n:'Santiago Martinez Mercado',g:'1°',pre:'MCV',u1:1,u2:1,u3:1,vis:7},
+{id:'s123',n:'Marcelo Mejia Escalante',g:'1°',pre:'MCV',u1:1,u2:0,u3:0,vis:5},
+{id:'s124',n:'Mauricio Molina Morgenthaler',g:'1°',pre:'MCV',u1:1,u2:1,u3:0,vis:4},
+{id:'s125',n:'Maximo Enriquez Carrizal',g:'2°',pre:'MCV',u1:1,u2:0,u3:0,vis:4},
+{id:'s126',n:'Hector Manuel Garcia Jasso',g:'2°',pre:'MCV',u1:1,u2:0,u3:0,vis:6},
+{id:'s127',n:'Emilio González Escobedo',g:'2°',pre:'MCV',u1:1,u2:1,u3:0,vis:4},
+{id:'s128',n:'Fernando Guerrero Vazquez',g:'2°',pre:'MCV',u1:1,u2:0,u3:0,vis:3},
+{id:'s129',n:'Liam Alexander Jimenez Zavala',g:'2°',pre:'MCV',u1:1,u2:1,u3:0,vis:6},
+{id:'s130',n:'Ethan Shuya Miwa Becerril',g:'2°',pre:'MCV',u1:1,u2:0,u3:0,vis:3},
+{id:'s131',n:'Tomás Narváez Castañeda',g:'2°',pre:'MCV',u1:1,u2:0,u3:0,vis:6},
+{id:'s132',n:'David Elias Ayala Cruz',g:'1°',pre:'EHH',u1:1,u2:0,u3:0,vis:12},
+{id:'s133',n:'Ricardo Benedicto Garcia Ramirez',g:'1°',pre:'EHH',u1:1,u2:1,u3:0,vis:15},
+{id:'s134',n:'Mathias Meade Padilla',g:'1°',pre:'EHH',u1:1,u2:1,u3:0,vis:18},
+{id:'s135',n:'Sebastian Ortiz Cano',g:'1°',pre:'EHH',u1:1,u2:1,u3:1,vis:13},
+{id:'s136',n:'Leon Recio Solis',g:'1°',pre:'EHH',u1:1,u2:1,u3:0,vis:16},
+{id:'s137',n:'Alejandro Shiguetomi Medina',g:'1°',pre:'EHH',u1:1,u2:1,u3:0,vis:9},
+{id:'s138',n:'Daniel Zollino Lozano',g:'1°',pre:'EHH',u1:1,u2:1,u3:0,vis:10},
+{id:'s139',n:'Emiliano Campos Rodriguez',g:'2°',pre:'EHH',u1:1,u2:1,u3:1,vis:11},
+{id:'s140',n:'Samuel Ortiz Cano',g:'3°',pre:'EHH',u1:1,u2:1,u3:1,vis:11},
+{id:'s141',n:'Luca Rafael Martínez Romano',g:'4°',pre:'EHH',u1:1,u2:1,u3:0,vis:11},
+{id:'s142',n:'Mateo Bedolla Guerrero',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:7},
+{id:'s143',n:'Jose Gilberto Campos Mercado',g:'2°',pre:'JGP',u1:1,u2:1,u3:1,vis:8},
+{id:'s144',n:'Ricardo Carmona Arellano',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s145',n:'André Sebastián Cebrian García',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s146',n:'Santiago Del Camino Alvarado',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s147',n:'Adrián Martínez Muñiz',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s148',n:'Hector Manuel Mezquida Guevara',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s149',n:'Joel Enrique Navarro Moreno',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s150',n:'Diego Ramirez Rios',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s151',n:'Alejandro Rasillo Cadena',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s152',n:'Eduardo Rasillo Herrera',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s153',n:'Sebastián Robles Castillo',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s154',n:'Mateo Rubín De Celis Aranda',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s155',n:'Tomas Alejandro Salazar Torres',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s156',n:'Antonio Sandoval Flores',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s157',n:'Gael Alexis Segura Molina',g:'2°',pre:'JGP',u1:1,u2:0,u3:0,vis:8},
+{id:'s158',n:'José Guillermo Silva Hinojosa',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s159',n:'Daniel Solorzano Iruzo',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s160',n:'Julián Juan Torres Martínez',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s161',n:'Hector Alberto Villaseñor Chevaile',g:'2°',pre:'JGP',u1:1,u2:1,u3:0,vis:8},
+{id:'s162',n:'Javier Ortiz Pinto',g:'1°',pre:'ASM',u1:1,u2:1,u3:0,vis:5},
+{id:'s163',n:'Gonzalo Waldo Navarro',g:'2°',pre:'ASM',u1:1,u2:1,u3:0,vis:4},
+{id:'s164',n:'Abdiel Aguilar Gallegos',g:'3°',pre:'ASM',u1:1,u2:0,u3:0,vis:4},
+{id:'s165',n:'Fernando Ávila De Ávila',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:5},
+{id:'s166',n:'Diego Cataño Hinojosa',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:4},
+{id:'s167',n:'Julian De La Rosa Herrán',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:4},
+{id:'s168',n:'Luis José Escalante Rocha',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:7},
+{id:'s169',n:'Marcelo Gutiérrez Gómez',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:5},
+{id:'s170',n:'Iker Iñigo Alonso',g:'3°',pre:'ASM',u1:1,u2:0,u3:0,vis:3},
+{id:'s171',n:'Edgar Patricio Juárez Pérez',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:4},
+{id:'s172',n:'Patricio Magaña Licona',g:'3°',pre:'ASM',u1:1,u2:0,u3:0,vis:5},
+{id:'s173',n:'Mikel Martínez Ibarguengoitia',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:5},
+{id:'s174',n:'Sebastián Alejandro Mendoza Penilla',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:10},
+{id:'s175',n:'Jorge Moreno Olvera',g:'3°',pre:'ASM',u1:1,u2:0,u3:0,vis:1},
+{id:'s176',n:'Matías Ortiz Pinto',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:5},
+{id:'s177',n:'Rodrigo Rivera Nieto',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:7},
+{id:'s178',n:'Alexander Urriza Pérez',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:8},
+{id:'s179',n:'Marcelo Waldo Navarro',g:'3°',pre:'ASM',u1:1,u2:1,u3:0,vis:5},
+{id:'s180',n:'Roberto Aguirre Diaz Del Castillo',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:6},
+{id:'s181',n:'Bruno Michael Amaro Martínez',g:'3°',pre:'GSM',u1:1,u2:0,u3:0,vis:6},
+{id:'s182',n:'Matteo Bonazzi Ortiz',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:6},
+{id:'s183',n:'Juan Pablo Colin González',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:8},
+{id:'s184',n:'Raúl Cos Y León Martínez',g:'3°',pre:'GSM',u1:1,u2:0,u3:0,vis:6},
+{id:'s185',n:'Patricio Hernandez Flores',g:'3°',pre:'GSM',u1:1,u2:0,u3:0,vis:6},
+{id:'s186',n:'Diego Emiliano López Flores',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:6},
+{id:'s187',n:'Fidel Andre Miranda Montoya',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:6},
+{id:'s188',n:'Emiliano Pérez Castillo',g:'3°',pre:'GSM',u1:1,u2:0,u3:0,vis:6},
+{id:'s189',n:'Santiago Quiroga García',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:7},
+{id:'s190',n:'Nicolas Ramírez Pérez',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:6},
+{id:'s191',n:'Máximo Sánchez Mauricio',g:'3°',pre:'GSM',u1:1,u2:1,u3:0,vis:7},
+{id:'s192',n:'Alejandro Pérez Castillo',g:'4°',pre:'GSM',u1:1,u2:0,u3:0,vis:7},
+{id:'s193',n:'Jesus Canseco Mundo',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s194',n:'Bruno Roberto Cooper Ríos',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s195',n:'Patricio Correa Jiménez',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s196',n:'José Emilio Cuevas Sánchez',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s197',n:'Julio Saúl Heredia López',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s198',n:'Héctor Martínez García',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s199',n:'José Daniel Medouze Terán',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s200',n:'Sergio Alejandro Navarrete Arribas',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s201',n:'Álvaro Robledo Gutiérrez',g:'3°',pre:'ARZ',u1:1,u2:0,u3:0,vis:7},
+{id:'s202',n:'Angel Rodríguez De Tembleque Araiza',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s203',n:'Leonardo Velasquez Ribeiro',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s204',n:'Leonardo Zavala Olvera',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s205',n:'Jancarlo Zubieta Cárdenas',g:'3°',pre:'ARZ',u1:1,u2:1,u3:0,vis:7},
+{id:'s206',n:'Carlos Almendarez Vega',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s207',n:'José Manuel Alonso Rangel',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s208',n:'Ernesto Araiza Mora',g:'4°',pre:'APO',u1:1,u2:0,u3:0,vis:3},
+{id:'s209',n:'Mikel Arguelles Valadez',g:'4°',pre:'APO',u1:1,u2:0,u3:0,vis:2},
+{id:'s210',n:'Emilio Ávila Teniente',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s211',n:'Jesús Barcelos Rodríguez',g:'4°',pre:'APO',u1:0,u2:0,u3:0,vis:3},
+{id:'s212',n:'Enrique Benitez Cabrera',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s213',n:'Ernesto Castillo Ruíz',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s214',n:'Leonardo Espinosa García López',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s215',n:'David González Cerda',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s216',n:'Jhoed Melchor Leyva Díaz',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:2},
+{id:'s217',n:'Víctor Isaac Martínez López',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s218',n:'Ernesto Robles Enrigue',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:4},
+{id:'s219',n:'Santino Vázquez González',g:'4°',pre:'APO',u1:1,u2:1,u3:0,vis:3},
+{id:'s220',n:'Maximo Ian Vega Pitol',g:'4°',pre:'APO',u1:1,u2:0,u3:0,vis:4},
+{id:'s221',n:'Leonardo Woge Velázquez',g:'4°',pre:'APO',u1:1,u2:0,u3:0,vis:3},
+{id:'s222',n:'Christian Campos Chávez',g:'2°',pre:'DGA',u1:1,u2:0,u3:0,vis:7},
+{id:'s223',n:'José María Lara Hernández',g:'2°',pre:'DGA',u1:1,u2:0,u3:0,vis:7},
+{id:'s224',n:'Mariano Benavente Nieto',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:4},
+{id:'s225',n:'Mauricio Campos Chávez',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s226',n:'Jean Paul Campos Gastelum',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s227',n:'Alejandro Esparza Pérez',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s228',n:'Rogelio Leonel García Romero',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:8},
+{id:'s229',n:'Jorge Alberto Juárez Negrete',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s230',n:'Rubén Gonzalo Lara Hernández',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:11},
+{id:'s231',n:'Santiago Medina Gómez',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s232',n:'Ricardo Méndez González',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s233',n:'José Tadeo Navarrete Camarillo',g:'4°',pre:'DGA',u1:0,u2:0,u3:0,vis:9},
+{id:'s234',n:'Santiago Orozco Gutierrez',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s235',n:'Eduardo Orta Martín Del Campo',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s236',n:'Leonardo Enrique Pineda Ramírez',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:7},
+{id:'s237',n:'Matías Malaki Romero Álvarez',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:8},
+{id:'s238',n:'José Pablo Saiz Macías',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:7},
+{id:'s239',n:'Julián Torres Castillo',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:8},
+{id:'s240',n:'José Santiago Torruco Leura',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:14},
+{id:'s241',n:'Ramón Isaias Vega Luna',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:7},
+{id:'s242',n:'Alejandro Zarur Guevara',g:'4°',pre:'DGA',u1:1,u2:0,u3:0,vis:6},
+{id:'s243',n:'Luis Arturo Alvelais De La Rosa',g:'1°',pre:'RVV',u1:1,u2:1,u3:1,vis:22},
+{id:'s244',n:'Emanuel Arredondo Barron',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:18},
+{id:'s245',n:'Carlos Andres De Los Santos Espinosa',g:'1°',pre:'RVV',u1:1,u2:1,u3:1,vis:21},
+{id:'s246',n:'Diego Dimas Monternach',g:'1°',pre:'RVV',u1:1,u2:0,u3:0,vis:16},
+{id:'s247',n:'Jose Damian Flores Pazos',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:14},
+{id:'s248',n:'Lucas Gonzalez Torres',g:'1°',pre:'RVV',u1:1,u2:1,u3:1,vis:24},
+{id:'s249',n:'Sebastian Martinez Astorga',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:16},
+{id:'s250',n:'Sebastian Isai Martinez Carlos',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:16},
+{id:'s251',n:'Gerardo Olivier Mendez Cano',g:'1°',pre:'RVV',u1:1,u2:0,u3:0,vis:21},
+{id:'s252',n:'Tadeo Emmanuel Narvaez Alvarez',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:16},
+{id:'s253',n:'Arturo Ovalle Davila',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:15},
+{id:'s254',n:'Iker Ramirez Balbi',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:14},
+{id:'s255',n:'Leonardo David Rangel Sanchez',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:13},
+{id:'s256',n:'Francisco Rodriguez Diaz',g:'1°',pre:'RVV',u1:0,u2:0,u3:0,vis:15},
+{id:'s257',n:'Mateo Santiago Rodriguez Granja',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:14},
+{id:'s258',n:'Nicolas Alberto Salazar Gomez',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:17},
+{id:'s259',n:'Eduardo Suarez Lopez De Lara',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:16},
+{id:'s260',n:'Sebastian Torres Ortiz',g:'1°',pre:'RVV',u1:1,u2:0,u3:0,vis:13},
+{id:'s261',n:'Santiago Torres Segura',g:'1°',pre:'RVV',u1:1,u2:1,u3:1,vis:17},
+{id:'s262',n:'Aaron Israel Tovar',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:14},
+{id:'s263',n:'Julio Cesar Tovar Maldonado',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:17},
+{id:'s264',n:'Andres Villalobos Salinas',g:'1°',pre:'RVV',u1:1,u2:1,u3:0,vis:15},
+{id:'s265',n:'Liam Diaconescu Wither',g:'2°',pre:'RVV',u1:1,u2:1,u3:0,vis:14},
+{id:'s266',n:'Iker Martell Medina',g:'2°',pre:'RVV',u1:1,u2:1,u3:0,vis:15},
+{id:'s267',n:'Sebastián Suárez López',g:'2°',pre:'RVV',u1:1,u2:1,u3:0,vis:11},
+{id:'s268',n:'Galdino Martínez Astorga',g:'3°',pre:'RVV',u1:1,u2:1,u3:0,vis:15},
+{id:'s269',n:'Gustavo Medina Sánchez',g:'3°',pre:'RVV',u1:1,u2:1,u3:1,vis:15},
+{id:'s270',n:'Paulino Cavazos Silva',g:'4°',pre:'RVV',u1:1,u2:1,u3:0,vis:15},
+{id:'s271',n:'Javier Miranda Palau',g:'4°',pre:'RVV',u1:1,u2:0,u3:0,vis:11},
+{id:'s272',n:'Maximiliano Piñeyro Juárez',g:'4°',pre:'RVV',u1:1,u2:1,u3:1,vis:18},
+{id:'s273',n:'Carlo Sanchéz Arceo',g:'4°',pre:'RVV',u1:1,u2:1,u3:0,vis:12},
+{id:'s274',n:'Alejandro Suárez López',g:'4°',pre:'RVV',u1:1,u2:1,u3:0,vis:11},
+{id:'s275',n:'Abraham Villalobos Salinas',g:'4°',pre:'RVV',u1:1,u2:1,u3:0,vis:14},
+{id:'s276',n:'Dylan Leonardo Duarte Medina',g:'1°',pre:'AVE',u1:1,u2:0,u3:0,vis:18},
+{id:'s277',n:'Matias Alanis Haro',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:11},
+{id:'s278',n:'René Díaz Torrescano',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:15},
+{id:'s279',n:'Guillermo Hernández Lázaro',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:15},
+{id:'s280',n:'Liam Alain Medina Valdes',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:14},
+{id:'s281',n:'Hassib Ruiz Rodriguez',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:12},
+{id:'s282',n:'Jose Manuel Zacarias Meade',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:17},
+{id:'s283',n:'Héctor Antonio Zarzosa Siller',g:'2°',pre:'AVE',u1:1,u2:1,u3:0,vis:17},
+{id:'s284',n:'Deryk Alexandro Duarte Medina',g:'4°',pre:'AVE',u1:1,u2:0,u3:0,vis:16},
+{id:'s285',n:'Patricio Zavala Quezada',g:'4°',pre:'AVE',u1:1,u2:1,u3:0,vis:16}
+];
+
+const TEMAS3 = {
+  '1°':[
+    {d:'🏃 Física',t:'Compañerismo',qs:['¿Con qué frecuencia invita amigos a casa o lo invitan?','¿Cómo se desenvuelve en reuniones sociales?','¿Distingue entre amigo, compañero y cómplice?']},
+    {d:'❤️ Afectiva',t:'Laboriosidad',qs:['¿Hace sus encargos sin que le recuerden?','¿Se preocupa por el trabajo bien hecho?']},
+    {d:'💪 Volitiva',t:'Finanzas y Orden',qs:['¿Conoce el valor del dinero y sabe administrarlo?','¿Cómo lo motivan a cuidar sus pertenencias?']},
+    {d:'📚 Intelectual',t:'Generosidad',qs:['¿Sabe compartir sus cosas con los demás?','¿Cómo practican la generosidad en familia?','¿Es agradecido al recibir?']},
+    {d:'🙏 Espiritual',t:'Reciedumbre',qs:['¿Sabe distinguir entre broma, juego y accidente?','¿Sabe pedir perdón y aceptar disculpas?','¿Cómo trabajan las pequeñas adversidades del día?']},
+  ],
+  '2°':[
+    {d:'🏃 Física',t:'Reciedumbre / Plan de verano',qs:['¿Apoyan las indicaciones del entrenador?','¿Qué plan de verano tienen: nuevos retos y habilidades?']},
+    {d:'❤️ Afectiva',t:'Compañerismo',qs:['¿Su hijo sabe identificar entre compañerismo, amistad y complicidad?']},
+    {d:'💪 Volitiva',t:'Laboriosidad',qs:['¿Qué encargos en casa tienen considerados para su hijo?','¿Cómo hacen ver los logros del ciclo?']},
+    {d:'📚 Intelectual',t:'Cálculo mental / Orden',qs:['¿Le dan oportunidad de ir a la tienda: pedido, pago y cambio?']},
+    {d:'🙏 Espiritual',t:'Examen de conciencia',qs:['¿Procuran enseñar a su hijo a hacer un pequeño examen de conciencia antes de dormir?']},
+  ],
+  '3°':[
+    {d:'🏃 Física',t:'Sexualidad y afectividad',qs:['¿Han comentado con su hijo algún tema de sexualidad?','¿Revisan periódicamente sus dispositivos?','¿Cuidan los ambientes en que se desenvuelve?']},
+    {d:'❤️ Afectiva',t:'Juego con reglas / Justicia',qs:['¿Buscan convivir con juegos de mesa?','¿Cómo aprovechan las reglas de un juego para la vida?','¿Tienen plan de premios y consecuencias?']},
+    {d:'💪 Volitiva',t:'Orden',qs:['¿Sus actividades las hace con orden y cuidado de detalles?','¿Qué cosas hace por sí solo?','¿Cómo motivan a cuidar prendas y artículos?']},
+    {d:'📚 Intelectual',t:'Habilidades del pensamiento',qs:['¿Supervisan que haya cumplido sus tareas?','¿Le piden que trabaje con su mejor esfuerzo?','¿Qué hacen para que se esfuerce en solucionar dificultades?']},
+    {d:'🙏 Espiritual',t:'Virtudes teologales',qs:['¿Cómo potencian fe, esperanza y caridad en casa?','¿Cómo aprovechan las vacaciones para vida de piedad?']},
+  ],
+  '4°':[
+    {d:'🏃 Física',t:'Perseverancia y tiempo libre',qs:['¿En qué ha manifestado perseverancia este año?','¿En qué es especialmente hábil su hijo?','¿Tiene alguna afición que desarrolle en su tiempo libre?']},
+    {d:'❤️ Afectiva',t:'Paciencia y alegría',qs:['¿Pierden tiempo positivamente con su hijo?','¿Se promueve la convivencia cara a cara en casa?','¿Cuáles son las actividades donde su hijo se ve más feliz?']},
+    {d:'💪 Volitiva',t:'Responsabilidad ecológica',qs:['¿Es autónomo en sus encargos? ¿Cuáles?','¿Cómo lo motivan a cuidar sus cosas?','¿Fomentan responsabilidad ecológica en casa?']},
+    {d:'📚 Intelectual',t:'Creatividad y trabajo',qs:['¿Han detectado creatividad o autenticidad en su hijo?','¿Qué enseñanzas son esenciales para esta edad?','¿Tienen actividades de verano que no lo desconecten del área académica?']},
+    {d:'🙏 Espiritual',t:'Dirección espiritual',qs:['¿Qué acciones de piedad realizan para predicar con el ejemplo?','¿Cómo ejerce su hijo su autonomía correctamente?','¿Buscan formación para ser mejores padres?']},
+  ],
+};
+
+// ══ STATE ══
+let currentPre = null;
+let showAll = false;
+
+// ══ INIT ══
+// ══ MAPEO DE CORREOS ══
+// Completa con los correos reales de cada preceptor
+// Formato: 'correo@irsl.edu.mx': 'CODIGO'
+const EMAIL_MAP = {
+  'alejandroa@irsl.edu.mx':     'AAG',
+  'aaposadas@irsl.edu.mx':      'APO',
+  'arivera@irsl.edu.mx':        'ARV',
+  'jarzavala@irsl.edu.mx':      'ARZ',
+  'teacherhasm@irsl.edu.mx':    'ASM',
+  'avazqueze@irsl.edu.mx':      'AVE',
+  'dgzz@irsl.edu.mx':           'DGA',
+  'eduardo1724@irsl.edu.mx':    'EHH',
+  'fchavez@irsl.edu.mx':        'FCL',
+  'fmartinez@irsl.edu.mx':      'FMR',
+  'licgustavo@irsl.edu.mx':     'GSM',
+  'jaimeg@irsl.edu.mx':         'JGP',
+  'jpemo@irsl.edu.mx':          'JPM',
+  'jrojas@irsl.edu.mx':         'JRB',
+  'lstack@irsl.edu.mx':         'LLS',
+  'marun.ventura@irsl.edu.mx':  'MCV',
+  'mlopezg@irsl.edu.mx':        'MLG',
+  'ruperto@irsl.edu.mx':        'RVV',
+};
+
+// Tu correo como coordinador — reemplaza con el tuyo
+const COORD_EMAIL = 'coordinacion@irsl.edu.mx';
+
+function detectUser() {
+  // En Google Sites con Workspace, el correo del usuario se puede
+  // obtener vía Apps Script. Este es el placeholder para cuando
+  // integres con AppScript.
+  // Por ahora el preceptor selecciona su nombre manualmente.
+  const urlParams = new URLSearchParams(window.location.search);
+  const emailParam = urlParams.get('user'); // Sites pasará el correo vía parámetro
+  if (emailParam && EMAIL_MAP[emailParam]) {
+    return { role: 'preceptor', code: EMAIL_MAP[emailParam] };
+  }
+  if (emailParam && emailParam === COORD_EMAIL) {
+    return { role: 'coord' };
+  }
+  return null;
+}
+
+function init() {
+  const selects = ['pre-select','pre-select-2'];
+  selects.forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    PRECEPTORES.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.codigo;
+      opt.textContent = `${p.codigo} · ${p.nombre}`;
+      sel.appendChild(opt);
+    });
+  });
+  renderCoord();
+  renderTemas('all');
+
+  // Auto-detect user from email if mapping is configured
+  const user = detectUser();
+  if (user) {
+    if (user.role === 'preceptor') {
+      // Auto-select preceptor and hide role switcher
+      selectPreceptor(user.code);
+      const sw = document.querySelector('.role-sw');
+      if (sw) sw.style.display = 'none';
+    } else if (user.role === 'coord') {
+      // Show coord view directly, hide preceptor view
+      showRole('coord', document.querySelectorAll('.r-btn')[1]);
+    }
+  }
+}
+
+function selectPreceptor(code) {
+  if (!code) return;
+  currentPre = code;
+  showAll = false;
+  // Sync both selects
+  ['pre-select','pre-select-2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = code;
+  });
+  renderInicio();
+  renderAlumnos();
+}
+
+// ══ INICIO ══
+function renderInicio() {
+  const pre = PRECEPTORES.find(p => p.codigo === currentPre);
+  const myStudents = STUDENTS.filter(s => s.pre === currentPre);
+  const total = myStudents.length;
+  const con2 = myStudents.filter(s => s.u1 && s.u2).length;
+  const sin2 = myStudents.filter(s => !s.u2).length;
+  const sin1 = myStudents.filter(s => !s.u1).length;
+  const con3 = myStudents.filter(s => s.u3).length;
+  const grades = [...new Set(myStudents.map(s => s.g))].sort();
+
+  let alertHTML = sin2 > 0
+    ? `<div class="alert warn">⚠ <strong>${sin2} ${sin2===1?'familia tiene':'familias tienen'} la 2ª entrevista pendiente.</strong> Resuélvelo antes o en paralelo a la 3ª.${sin1>0?` Además ${sin1} no tienen ninguna entrevista.`:''}</div>`
+    : `<div class="alert ok">✓ Todas las familias tienen 1ª y 2ª realizadas. Listo para iniciar la 3ª con todos.</div>`;
+
+  // First 6 students preview
+  const preview = myStudents.slice(0,6);
+  const rows = preview.map((s,i) => {
+    const d1 = s.u1 ? 'done' : 'pend';
+    const d2 = s.u2 ? 'done' : 'pend';
+    const d3 = s.u3 ? 'done' : 'pend';
+    const cta = s.u3
+      ? `<span class="s-cta ok">✓ 3ª realizada</span>`
+      : (s.u1 && s.u2)
+        ? `<span class="s-cta">Agendar 3ª →</span>`
+        : `<span class="s-cta warn">Resolver ${!s.u1?'1ª':''} ${!s.u1&&!s.u2?'y':''} ${!s.u2?'2ª':''}</span>`;
+    return `<div class="s-row">
+      <div class="s-num">${i+1}</div>
+      <div class="s-info"><div class="s-name">${s.n}</div><div class="s-grade">${s.g} · ${currentPre}</div></div>
+      <div class="s-dots">
+        <div class="dot ${d1}" title="1ª entrevista">1</div>
+        <div class="dot ${d2}" title="2ª entrevista">2</div>
+        <div class="dot ${d3}" title="3ª entrevista">3</div>
+      </div>
+      ${cta}
+    </div>`;
+  }).join('');
+
+  const moreRow = total > 6
+    ? `<div class="more-row" onclick="showTab('alumnos',document.querySelectorAll('.s-link')[1])">Ver los ${total} alumnos completos →</div>`
+    : '';
+
+  // Temas cards for their grades
+  const temasCards = grades.map(g => {
+    const dims = TEMAS3[g] || [];
+    const dimsHTML = dims.map(d => `
+      <div>
+        <div class="tc-dim-hd">${d.d}</div>
+        <div class="tc-dim-name">${d.t}</div>
+        <ul class="tc-qs">${d.qs.map(q=>`<li>${q}</li>`).join('')}</ul>
+      </div>`).join('');
+    return `<div class="temas-card">
+      <div class="tc-grade">📋 ${g} Elementary · 3ª entrevista</div>
+      <div class="tc-title">Preguntas para preparar la entrevista</div>
+      <div class="tc-dims">${dimsHTML}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('pre-content').innerHTML = `
+    <div class="p-head">
+      <div>
+        <div class="p-greet">Martes 21 de abril, 2026 · 3ª Unidad</div>
+        <div class="p-name">Hola, ${pre.nombre.split(' ')[0]}</div>
+        <div class="p-sub">${pre.codigo} · ${total} preceptuados en ${grades.join(', ')}</div>
+      </div>
+      <div class="p-meta"><strong>${currentPre}</strong><br>${total} alumnos<br>Ciclo 2025–2026</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi v"><div class="kpi-lbl">Con 1ª y 2ª completas</div><div class="kpi-val">${con2}<span style="font-size:.9rem;color:var(--muted);">/${total}</span></div><div class="kpi-sub">Listos para 3ª entrevista</div></div>
+      <div class="kpi r"><div class="kpi-lbl">Sin 2ª entrevista</div><div class="kpi-val">${sin2}</div><div class="kpi-sub">${sin2===0?'✓ Ninguno pendiente':'Resolver antes de U3'}</div></div>
+      <div class="kpi o"><div class="kpi-lbl">3ª entrevista realizada</div><div class="kpi-val">${con3}<span style="font-size:.9rem;color:var(--muted);">/${total}</span></div><div class="kpi-sub">En curso este ciclo</div></div>
+      <div class="kpi n"><div class="kpi-lbl">Grados</div><div class="kpi-val">${grades.length}</div><div class="kpi-sub">${grades.join(' · ')}</div></div>
+    </div>
+    ${alertHTML}
+    <div class="two-col">
+      <div>
+        <div class="sec-hd"><div class="sec-t">Mis preceptuados</div><span class="sec-a" onclick="showTab('alumnos',document.querySelectorAll('.s-link')[1])">Ver todos →</span></div>
+        <div class="panel">${rows}${moreRow}</div>
+        <div class="sec-hd" style="margin-top:28px;"><div class="sec-t">Temas de la 3ª entrevista</div></div>
+        ${temasCards}
+      </div>
+      <div>
+        <div class="sec-hd" style="margin-top:0;"><div class="sec-t" style="font-size:1rem;">Mi semana · 14-20 abr</div></div>
+        <div class="wc">
+          <div class="wc-lbl">Visitas registradas esta semana</div>
+          <div class="wc-bars">
+            <div class="wc-col"><div class="wc-bv">3</div><div class="wc-bar" style="height:75%;"></div><div class="wc-bl">Lun</div></div>
+            <div class="wc-col"><div class="wc-bv">2</div><div class="wc-bar" style="height:50%;"></div><div class="wc-bl">Mar</div></div>
+            <div class="wc-col"><div class="wc-bv">2</div><div class="wc-bar" style="height:50%;"></div><div class="wc-bl">Mié</div></div>
+            <div class="wc-col"><div class="wc-bv">1</div><div class="wc-bar" style="height:25%;"></div><div class="wc-bl">Jue</div></div>
+            <div class="wc-col"><div class="wc-bv">—</div><div class="wc-bar e" style="height:10%;"></div><div class="wc-bl">Vie</div></div>
+          </div>
+          <div style="margin-top:10px;font-size:.73rem;color:var(--muted);border-top:1px solid var(--border);padding-top:8px;">
+            <strong style="color:var(--text);">${STUDENTS.filter(x=>x.pre===currentPre).reduce((a,b)=>a+(b.vis||0),0)}</strong> entrevistas con alumnos acumuladas · meta: ${total*10}
+          </div>
+        </div>
+        <div class="sec-hd"><div class="sec-t" style="font-size:1rem;">Próximas citas</div></div>
+        <div class="panel">
+          <div class="cal-item"><div class="cal-box"><div class="cal-d">22</div><div class="cal-m">Abr</div></div><div class="cal-body"><div class="cal-title">3ª Entrevista · ${myStudents[0]?.n.split(' ').slice(0,2).join(' ') || '—'}</div><div class="cal-meta"><span>4:30 pm</span><span class="cal-tag ct-e">entrevista</span></div></div></div>
+          <div class="cal-item"><div class="cal-box"><div class="cal-d">28</div><div class="cal-m">Abr</div></div><div class="cal-body"><div class="cal-title">Reunión mensual de Preceptores</div><div class="cal-meta"><span>4:00 pm · Aula magna</span><span class="cal-tag ct-r">reunión</span></div></div></div>
+          <div class="cal-item"><div class="cal-box"><div class="cal-d">05</div><div class="cal-m">May</div></div><div class="cal-body"><div class="cal-title">Límite: 100% de 2ª entrevistas</div><div class="cal-meta"><span>Coordinación</span><span class="cal-tag ct-r">hito</span></div></div></div>
+          <div class="cal-item"><div class="cal-box"><div class="cal-d">20</div><div class="cal-m">Jun</div></div><div class="cal-body"><div class="cal-title">Cierre del ciclo 2025–2026</div><div class="cal-meta"><span>Entrega de reportes</span><span class="cal-tag ct-r">cierre</span></div></div></div>
+        </div>
+        <div class="sec-hd" style="margin-top:18px;"><div class="sec-t" style="font-size:1rem;">Virtud de abril</div></div>
+        <div class="panel" style="padding:14px 16px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--rojo-i);margin-bottom:5px;">Sinceridad</div>
+          <div style="font-size:.76rem;color:var(--muted);line-height:1.6;">Recuérdala en tus visitas. Mayo: Esfuerzo · Junio: Amistad</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ══ ALUMNOS ══
+function renderAlumnos() {
+  if (!currentPre) return;
+  const q = document.getElementById('search-alu')?.value.toLowerCase() || '';
+  const myStudents = STUDENTS.filter(s => s.pre === currentPre && (!q || s.n.toLowerCase().includes(q) || s.g.includes(q)));
+  const total = STUDENTS.filter(s => s.pre === currentPre).length;
+
+  const rows = myStudents.map((s,i) => {
+    const d1 = s.u1 ? 'done' : 'pend';
+    const d2 = s.u2 ? 'done' : 'pend';
+    const d3 = s.u3 ? 'done' : 'pend';
+    const visColor2 = (s.vis||0) >= 10 ? 'color:var(--rojo-i);' : (s.vis||0) >= 5 ? 'color:var(--gris-d);' : 'color:var(--alerta);';
+    const cta = s.u3
+      ? `<span class="s-cta ok">✓ 3ª realizada</span>`
+      : (s.u1 && s.u2)
+        ? `<span class="s-cta">Agendar 3ª →</span>`
+        : `<span class="s-cta warn">⚠ ${!s.u1&&!s.u2?'Sin entrevistas':!s.u1?'Falta 1ª':'Falta 2ª'}</span>`;
+    return `<div class="s-row">
+      <div class="s-num">${i+1}</div>
+      <div class="s-info"><div class="s-name">${s.n}</div><div class="s-grade">${s.g}</div></div>
+      <div class="s-dots">
+        <div class="dot ${d1}" title="1ª">1</div>
+        <div class="dot ${d2}" title="2ª">2</div>
+        <div class="dot ${d3}" title="3ª">3</div>
+      </div>
+      <div style="font-size:.66rem;font-family:'DM Mono',monospace;${visColor2}min-width:36px;text-align:right;">${s.vis||0}/10</div>
+      ${cta}
+    </div>`;
+  }).join('');
+
+  document.getElementById('alumnos-content').innerHTML = `
+    <div style="font-size:.74rem;color:var(--muted);margin-bottom:12px;">${myStudents.length} de ${total} alumnos ${q?'encontrados':''}</div>
+    <div class="panel">${rows || '<div style="padding:20px;text-align:center;color:var(--muted);">No se encontraron alumnos</div>'}</div>
+  `;
+}
+
+// ══ TEMAS ══
+function renderTemas(grade) {
+  const grades = grade === 'all' ? ['1°','2°','3°','4°'] : [grade];
+  const html = grades.map(g => {
+    const dims = TEMAS3[g] || [];
+    const dimsHTML = dims.map(d => `
+      <div>
+        <div class="tc-dim-hd">${d.d}</div>
+        <div class="tc-dim-name">${d.t}</div>
+        <ul class="tc-qs">${d.qs.map(q=>`<li>${q}</li>`).join('')}</ul>
+      </div>`).join('');
+    return `<div class="temas-card">
+      <div class="tc-grade">📋 ${g} Elementary</div>
+      <div class="tc-title">3ª Entrevista con Familias · Temas sugeridos</div>
+      <div class="tc-dims">${dimsHTML}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('temas-content').innerHTML = html;
+}
+
+function filterTemas(grade, btn) {
+  document.querySelectorAll('#tab-temas .r-btn').forEach(b => { b.style.background='var(--surface2)'; b.style.color='var(--text)'; });
+  btn.style.background='var(--rojo-i)'; btn.style.color='white';
+  renderTemas(grade);
+}
+
+// ══ COORD ══
+function renderCoord() {
+  const stats = PRECEPTORES.map(p => {
+    const stu = STUDENTS.filter(s => s.pre === p.codigo);
+    const tot = stu.length;
+    const u1 = stu.filter(s=>s.u1).length;
+    const u2 = stu.filter(s=>s.u2).length;
+    const u3 = stu.filter(s=>s.u3).length;
+    const vis = stu.reduce((a,s)=>a+(s.vis||0),0);
+    const pct = tot > 0 ? Math.round(u2/tot*100) : 0;
+    return {...p, tot, u1, u2, u3, vis, pct};
+  }).sort((a,b) => a.pct - b.pct);
+
+  const totalAlu = STUDENTS.length;
+  const totalU1 = STUDENTS.filter(s=>s.u1).length;
+  const totalU2 = STUDENTS.filter(s=>s.u2).length;
+  const totalU3 = STUDENTS.filter(s=>s.u3).length;
+  const criticos = stats.filter(s=>s.pct<50).length;
+
+  const totalVis = STUDENTS.reduce((a,s)=>a+(s.vis||0),0);
+  const metaVis = totalAlu * 10;
+  document.getElementById('coord-kpis').innerHTML = `
+    <div class="kpi v"><div class="kpi-lbl">1ª Entrev. papás</div><div class="kpi-val">${totalU1}<span style="font-size:.9rem;color:var(--muted);">/${totalAlu}</span></div><div class="kpi-sub">${Math.round(totalU1/totalAlu*100)}% · 8-26 sep 2025</div></div>
+    <div class="kpi o"><div class="kpi-lbl">2ª Entrev. papás</div><div class="kpi-val">${totalU2}<span style="font-size:.9rem;color:var(--muted);">/${totalAlu}</span></div><div class="kpi-sub">${Math.round(totalU2/totalAlu*100)}% · 12-30 ene 2026</div></div>
+    <div class="kpi r"><div class="kpi-lbl">3ª Entrev. papás</div><div class="kpi-val">${totalU3}<span style="font-size:.9rem;color:var(--muted);">/${totalAlu}</span></div><div class="kpi-sub">${Math.round(totalU3/totalAlu*100)}% · 4-29 may 2026</div></div>
+    <div class="kpi n"><div class="kpi-lbl">Entrev. alumno</div><div class="kpi-val">${totalVis}<span style="font-size:.9rem;color:var(--muted);">/${metaVis}</span></div><div class="kpi-sub">${Math.round(totalVis/metaVis*100)}% de meta anual</div></div>
+  `;
+
+  const rows = stats.map(s => {
+    const pctU1 = Math.round(s.u1/s.tot*100);
+    const pctU2 = s.pct;
+    const color = pctU2 >= 90 ? 'var(--rojo-i)' : pctU2 >= 70 ? 'var(--gris-d)' : 'var(--alerta)';
+    const badge = pctU2 >= 90 ? '<span class="eb eb-ok">Completo</span>' : pctU2 >= 50 ? '<span class="eb eb-proc">En proceso</span>' : '<span class="eb eb-crit">Crítico</span>';
+    return `<tr>
+      <td><span class="pre-tag">${s.codigo}</span></td>
+      <td style="font-size:.76rem;color:var(--muted);">${s.nombre}</td>
+      <td class="c">${s.tot}</td>
+      <td class="c">${s.u1}/${s.tot}</td>
+      <td class="c">${s.u2}/${s.tot}</td>
+      <td class="c">${s.u3}/${s.tot}</td>
+      <td><div class="mb-wrap"><div class="mb-track"><div class="mb-fill" style="width:${pctU2}%;background:${color};"></div></div><span class="mb-val" style="color:${color};">${pctU2}%</span></div></td>
+      <td class="c" style="font-family:'DM Mono',monospace;font-size:.78rem;">${s.vis}</td>
+      <td class="c" style="font-family:'DM Mono',monospace;font-size:.78rem;color:${s.vis>=(s.tot*10)?'var(--rojo-i)':s.vis>=(s.tot*5)?'var(--gris-d)':'var(--alerta)'};">${Math.round(s.vis/(s.tot*10)*100)}%</td>
+      <td class="c">${badge}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('coord-table').innerHTML = `
+    <thead><tr>
+      <th>PRE</th><th>Nombre</th><th class="c">Alumnos</th>
+      <th class="c">1ª Entrev.<br>Papás</th><th class="c">2ª Entrev.<br>Papás</th><th class="c">3ª Entrev.<br>Papás</th>
+      <th>Avance 2ª</th><th class="c">Entrev.<br>Alumno</th><th class="c">% Meta<br>(10/alu)</th><th class="c">Estado</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  `;
+}
+
+// ══ NAVIGATION ══
+function showTab(tab, btn) {
+  document.querySelectorAll('.s-link').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#view-pre .page').forEach(p=>p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showRole(role, btn) {
+  document.querySelectorAll('.r-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('view-pre').style.display = role==='pre' ? '' : 'none';
+  document.getElementById('view-coord').style.display = role==='coord' ? '' : 'none';
+  window.scrollTo(0,0);
+}
+
+init();
+</script>
+</body>
+</html>
